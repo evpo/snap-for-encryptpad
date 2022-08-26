@@ -1,0 +1,68 @@
+name: encryptpad
+version: 0.5.0.2-beta
+grade: devel
+title: encryptpad
+summary: An application for viewing and editing symmetrically encrypted text.
+description: |
+  EncryptPad is an application for viewing and editing symmetrically encrypted text.
+  Using a simple and convenient graphical and command line interface, EncryptPad provides a tool for encrypting and decrypting binary files on disk while offering effective measures for protecting information, and it uses the most widely chosen quality file format OpenPGP.
+  Unlike other OpenPGP software which main purpose is asymmetric encryption, the primary focus of EncryptPad is symmetric encryption.
+confinement: devmode
+base: core20
+
+apps:
+  encryptpad:
+    command: bin/encryptpad
+    extensions:
+      - kde-neon
+    plugs:
+      - home
+      - opengl
+
+  encryptcli:
+    command: bin/encryptcli
+    plugs:
+      - home
+
+parts:
+  encryptpad:
+    plugin: autotools
+    override-build: |
+      python3 ./configure.py && make -j && make install
+    build-packages:
+      - zlib1g-dev
+      - libbotan-2-dev
+      - libbz2-dev
+      - python3
+      - pkg-config
+      - qt5-default
+      - qtbase5-dev
+    stage-packages:
+      - zlib1g
+      - libbotan-2-12
+      - libbz2-1.0
+    source: https://github.com/evpo/EncryptPad/releases/download/v0.5.0.2/encryptpad0_5_0_2_src.tar.gz
+    source-checksum: sha1/dceef62a1aa25075c4587c1b1c477fe939f64a0f
+    source-type: tar
+    source-subdir: encryptpad0_5_0_2_src
+    organize:
+      /usr/bin/encryptpad: bin/encryptpad
+      /usr/bin/encryptcli: bin/encryptcli
+      /usr/share/icons/hicolor/128x128/apps/encryptpad.png: usr/share/icons/hicolor/128x128/apps/encryptpad.png
+      /usr/share/icons/hicolor/16x16/apps/encryptpad.png: usr/share/icons/hicolor/16x16/apps/encryptpad.png
+      /usr/share/icons/hicolor/22x22/apps/encryptpad.png: usr/share/icons/hicolor/22x22/apps/encryptpad.png
+      /usr/share/icons/hicolor/32x32/apps/encryptpad.png: usr/share/icons/hicolor/32x32/apps/encryptpad.png
+      /usr/share/icons/hicolor/24x24/apps/encryptpad.png: usr/share/icons/hicolor/24x24/apps/encryptpad.png
+      /usr/share/icons/hicolor/scalable/apps/encryptpad.svg: usr/share/icons/hicolor/scalable/apps/encryptpad.svg
+      /usr/share/icons/hicolor/48x48/apps/encryptpad.png: usr/share/icons/hicolor/48x48/apps/encryptpad.png
+      /usr/share/mime/packages/encryptpad.xml: usr/share/mime/packages/encryptpad.xml
+      /usr/share/mime/application/x-encryptpad.xml: usr/share/mime/application/x-encryptpad.xml
+      /usr/share/applications/encryptpad.desktop: usr/share/applications/encryptpad.desktop
+
+  assets:
+    plugin: dump
+    source: .
+    organize:
+      encryptpad.desktop: snap/gui/encryptpad.desktop
+      encryptpad.png: snap/gui/encryptpad.png
+
