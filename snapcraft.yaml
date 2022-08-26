@@ -24,6 +24,9 @@ apps:
     plugs:
       - home
 
+architectures:
+  - amd64
+
 parts:
   encryptpad:
     plugin: autotools
