@@ -61,7 +61,8 @@ parts:
 
   assets:
     plugin: dump
-    source: .
+    source-type: git
+    source: https://github.com/evpo/snap-for-encryptpad.git
     organize:
       encryptpad.desktop: snap/gui/encryptpad.desktop
       encryptpad.png: snap/gui/encryptpad.png
