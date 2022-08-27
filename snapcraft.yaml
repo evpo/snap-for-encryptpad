@@ -88,13 +88,4 @@ parts:
     after:
       - desktop-qt5
 
-  assets:
-    plugin: dump
-    source-type: git
-    source: https://github.com/evpo/snap-for-encryptpad.git
-    organize:
-      encryptpad.desktop: meta/gui/encryptpad.desktop
-      encryptpad.png: meta/gui/encryptpad.png
-    prime:
-      - meta/gui/encryptpad.desktop
 
