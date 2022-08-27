@@ -12,12 +12,21 @@ base: core20
 
 apps:
   encryptpad:
+    command-chain:
+      - bin/desktop-launch # From part 'desktop-qt5'
     command: bin/encryptpad
     extensions:
-      - kde-neon
+      - gnome-3-38
     plugs:
+      - desktop
+      - desktop-legacy
       - home
-      - opengl
+      - network
+      - unity7
+      - wayland
+      - x11
+    environment:
+      DISABLE_WAYLAND: 1
 
   encryptcli:
     command: bin/encryptcli
@@ -28,6 +37,18 @@ architectures:
   - amd64
 
 parts:
+  # ----------------------------------------------------------------------------
+  # Part from: https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
+
   encryptpad:
     plugin: autotools
     override-build: |
@@ -44,6 +65,9 @@ parts:
       - zlib1g
       - libbotan-2-12
       - libbz2-1.0
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5widgets5
     source: https://github.com/evpo/EncryptPad/releases/download/v0.5.0.2/encryptpad0_5_0_2_src.tar.gz
     source-checksum: sha1/dceef62a1aa25075c4587c1b1c477fe939f64a0f
     source-type: tar
@@ -61,6 +85,8 @@ parts:
       /usr/share/mime/packages/encryptpad.xml: usr/share/mime/packages/encryptpad.xml
       /usr/share/mime/application/x-encryptpad.xml: usr/share/mime/application/x-encryptpad.xml
       /usr/share/applications/encryptpad.desktop: usr/share/applications/encryptpad.desktop
+    after:
+      - desktop-qt5
 
   assets:
     plugin: dump
