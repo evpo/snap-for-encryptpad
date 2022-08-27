@@ -93,6 +93,8 @@ parts:
     source-type: git
     source: https://github.com/evpo/snap-for-encryptpad.git
     organize:
-      encryptpad.desktop: snap/gui/encryptpad.desktop
-      encryptpad.png: snap/gui/encryptpad.png
+      encryptpad.desktop: meta/gui/encryptpad.desktop
+      encryptpad.png: meta/gui/encryptpad.png
+    prime:
+      - meta/gui/encryptpad.desktop
 
